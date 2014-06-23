@@ -3,16 +3,13 @@ package hades.smsuploader;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -21,16 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import hades.smsuploader.R;
-
-public class NumberManagerActivity extends Activity implements AddNumberDialog.Communicator, AdapterView.OnItemClickListener{
-
-    public static final String FILE_NAME = "FILE_NUMBER";
+public class NumberManagerActivity extends Activity implements AddNumberDialog.Communicator, AdapterView.OnItemClickListener {
 
     ListView listview;
     ArrayList<String> list;
@@ -47,7 +37,7 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
             list = new ArrayList<String>();
 
         listview = (ListView) findViewById(R.id.listNumbers);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
         listview.setOnItemClickListener(this);
         listview.setAdapter(adapter);
@@ -70,11 +60,10 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_add_new_number)
-        {
+        if (id == R.id.action_add_new_number) {
             FragmentManager manager = getFragmentManager();
             AddNumberDialog dialog = new AddNumberDialog();
-            dialog.show(manager,"AddNumberDialog");
+            dialog.show(manager, "AddNumberDialog");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -83,10 +72,9 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
     @Override
     public void onDialogMessage(String message) {
         String toastMessage = "Added " + message;
-        Toast.makeText(this,toastMessage,Toast.LENGTH_SHORT).show();
-        message.replace(" ","");
-        if (!list.contains(message))
-        {
+        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
+        message.replace(" ", "");
+        if (!list.contains(message)) {
             list.add(message);
             adapter.notifyDataSetChanged();
         }
@@ -96,7 +84,7 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
     public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
         String item = (String) adapterView.getItemAtPosition(i);
         String toastMessage = "Removed " + item;
-        Toast.makeText(this,toastMessage,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
         list.remove(item);
         adapter.notifyDataSetChanged();
     }
@@ -105,7 +93,7 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
     protected void onStop() {
         super.onStop();
         try {
-            FileOutputStream fos = openFileOutput(FILE_NAME,Context.MODE_PRIVATE);
+            FileOutputStream fos = openFileOutput(SUPPORT_CONSTANTS.FILE_NAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(list);
             oos.close();
@@ -116,20 +104,18 @@ public class NumberManagerActivity extends Activity implements AddNumberDialog.C
         }
     }
 
-    private ArrayList<String> readFile()
-    {
-        ArrayList<String> returnlist = null;
+    private ArrayList<String> readFile() {
+        ArrayList<String> returnList = null;
         FileInputStream fis;
         try {
-            fis = openFileInput(FILE_NAME);
+            fis = openFileInput(SUPPORT_CONSTANTS.FILE_NAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            returnlist = (ArrayList<String>) ois.readObject();
+            returnList = (ArrayList<String>) ois.readObject();
             ois.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            return returnlist;
+        } finally {
+            return returnList;
         }
     }
 }
