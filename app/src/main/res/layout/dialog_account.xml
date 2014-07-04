@@ -6,6 +6,13 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/txtURL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="URL"
+        android:inputType="textWebEmailAddress" />
+
+    <EditText
         android:id="@+id/txtUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
