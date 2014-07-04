@@ -10,20 +10,10 @@ public class SMSEntity {
     private String content;
     private String datetime;
 
-    public SMSEntity(String username, String password, String sender, String content, String datetime) {
-        this.username = username;
-        this.password = password;
+    public SMSEntity(String sender, String content, String datetime) {
         this.sender = sender;
         this.content = content;
         this.datetime = datetime;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getSender() {

@@ -10,13 +10,13 @@ buildscript {
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 16
     buildToolsVersion "19.1.0"
 
     defaultConfig {
         applicationId "hades.smsuploader"
-        minSdkVersion 15
-        targetSdkVersion 19
+        minSdkVersion 16
+        targetSdkVersion 16
         versionCode 1
         versionName "1.0"
     }

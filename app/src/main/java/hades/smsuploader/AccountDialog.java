@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class AccountDialog extends DialogFragment implements View.OnClickListener {
 
     Button btnOK, btnCancel;
-    TextView txtUsername, txtPassword, txtURL;
+    TextView txtUsername, txtPassword, txtURL, txtLastAcc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class AccountDialog extends DialogFragment implements View.OnClickListene
         txtUsername = (TextView) view.findViewById(R.id.txtUsername);
         txtPassword = (TextView) view.findViewById(R.id.txtPassword);
         txtURL = (TextView) view.findViewById(R.id.txtURL);
+        txtLastAcc = (TextView) view.findViewById(R.id.last_accessed);
 
         btnOK = (Button) view.findViewById(R.id.btnSaveAcc);
         btnCancel = (Button) view.findViewById(R.id.btnCancelAcc);
@@ -38,10 +39,12 @@ public class AccountDialog extends DialogFragment implements View.OnClickListene
         String username = settings.getString("username", null);
         String password = settings.getString("password", null);
         String url = settings.getString("url", null);
+        String lass_accessed = settings.getString("last_time", "-1");
 
         txtUsername.setText(username);
         txtPassword.setText(password);
         txtURL.setText(url);
+        txtLastAcc.setText(lass_accessed);
 
         return view;
     }
@@ -59,6 +62,7 @@ public class AccountDialog extends DialogFragment implements View.OnClickListene
                 editor.putString("username", txtUsername.getText().toString());
                 editor.putString("password", txtPassword.getText().toString());
                 editor.putString("url", txtURL.getText().toString());
+                editor.putString("last_time", txtLastAcc.getText().toString());
                 editor.commit();
 
                 dismiss();
