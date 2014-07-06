@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 
 import org.apache.http.HttpResponse;
@@ -49,6 +50,9 @@ public class UploadSmsTask extends AsyncTask<Void, Void, Integer> {
     @Override
     protected Integer doInBackground(Void... voids) {
         int num_post = 0;
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
+        wl.acquire();
         while (SUPPORT_CONSTANTS.isRunning) {
             Integer num_send = postData();
             num_post++;
@@ -63,6 +67,7 @@ public class UploadSmsTask extends AsyncTask<Void, Void, Integer> {
                 e.printStackTrace();
             }
         }
+        wl.release();
         return num_post;
     }
 
@@ -107,11 +112,13 @@ public class UploadSmsTask extends AsyncTask<Void, Void, Integer> {
 
             if (resData.equals("1")) {
                 if (max_last_accessed > last_accessed) {
+                    last_accessed = max_last_accessed;
+                    max_last_accessed = -1L;
                     SharedPreferences settings = context.getSharedPreferences(
                             SUPPORT_CONSTANTS.PREFS_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
 
-                    editor.putString("last_time", max_last_accessed.toString());
+                    editor.putString("last_time", last_accessed.toString());
                     editor.commit();
                 }
             }
