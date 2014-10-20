@@ -82,11 +82,11 @@ public class UploadSmsTask extends AsyncTask<Void, Void, Integer> {
 
     public int postData() {
         // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-//        DefaultHttpClient httpclient = new MyHttpClient(context);
+//        HttpClient httpclient = new DefaultHttpClient();
+        DefaultHttpClient httpclient = new MyHttpClient(context);
 
-        if (!url.startsWith("http://"))
-            url = "http://" + url;
+        if (!url.startsWith("https://"))
+            url = "https://" + url;
         HttpPost httppost = new HttpPost(url);
 
         TelephonyManager mngr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
